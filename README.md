@@ -15,7 +15,7 @@ Este projeto tem como objetivo integrar a assistente virtual **Alexa** com a **A
 Quer ver o passo a passo de como integrar o Deepseek na sua Alexa?
 
 📺 Confira o vídeo completo no YouTube no Canal Café com bug:  
-👉 [link do vídeo no youtube](https://youtu.be/nit6Z5SGz2E)
+👉 [link do vídeo no youtube](https://youtu.be/lhqpAaIosmI)
 
 ---
 
