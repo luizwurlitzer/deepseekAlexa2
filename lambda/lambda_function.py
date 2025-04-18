@@ -1,6 +1,8 @@
 import os
 import logging
 import ask_sdk_core.utils as ask_utils
+import requests
+import json
 
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.dispatch_components import AbstractRequestHandler
@@ -9,16 +11,10 @@ from ask_sdk_core.handler_input import HandlerInput
 
 from ask_sdk_model import Response
 
-from openai import OpenAI
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-openai_api_key = "SUA-APIKEY-DEEPSEEK"
-
-client = OpenAI(api_key=openai_api_key, base_url="https://api.deepseek.com")
-
-MODEL = "deepseek-chat"
+NGROK_URL = "https://4105-179-251-100-255.ngrok-free.app/api/chat"
 
 messages = [
     {
@@ -69,10 +65,21 @@ def generate_gpt_response(query):
         messages.append(
             {"role": "user", "content": query},
         )
-        response = client.chat.completions.create(
-            model=MODEL, messages=messages, stream=False, max_tokens=500 #, temperature=0.8
-        )
-        reply = response.choices[0].message.content
+        
+        payload = {
+            "model": "deepseek-r1",
+            "messages": messages,
+            "stream": False
+        }
+        
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        
+        response = requests.post(NGROK_URL, headers=headers, data=json.dumps(payload))
+        response_data = response.json()
+        
+        reply = response_data['choices'][0]['message']['content']
         messages.append({"role": "assistant", "content": reply})
         return reply
     except Exception as e:
